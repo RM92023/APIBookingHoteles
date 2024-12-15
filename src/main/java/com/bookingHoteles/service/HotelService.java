@@ -19,17 +19,20 @@ public class HotelService {
                 "Hotel Sol", "Cartagena", 4.5f, 200000, true,
                 "Natación, Paseos en bote", true, false
         );
-        hotel1.agregarHabitacion(new Habitacion("Sencilla", "1 cama, vista al mar", 100000, 10));
-        hotel1.agregarHabitacion(new Habitacion("Doble", "2 camas, vista al mar", 150000, 5));
+        hotel1.agregarHabitacion(new Habitacion("Sencilla", "1 cama, vista al mar, aire acondicionado, TV", 100000, 10));
+        hotel1.agregarHabitacion(new Habitacion("Doble", "2 camas dobles, vista al mar, aire acondicionado, cafetera", 150000, 5));
+        hotel1.agregarHabitacion(new Habitacion("Suite", "Cama king, jacuzzi, TV pantalla plana, minibar", 300000, 3));
         hoteles.add(hotel1);
 
         Hotel hotel2 = new Hotel(
                 "Hotel Luna", "Medellín", 5.0f, 350000, false,
                 "Spa, Caminatas", false, true
         );
-        hotel2.agregarHabitacion(new Habitacion("Suite", "Cama king, jacuzzi", 500000, 2));
+        hotel2.agregarHabitacion(new Habitacion("Sencilla", "1 cama, aire acondicionado, escritorio, ducha", 120000, 8));
+        hotel2.agregarHabitacion(new Habitacion("Suite", "Cama king, jacuzzi, TV pantalla plana, minibar", 500000, 2));
         hoteles.add(hotel2);
     }
+
 
     public Hotel buscarHotelPorNombre(String nombre) {
         for (Hotel hotel : hoteles) {
@@ -92,4 +95,24 @@ public class HotelService {
         }
         return disponibles;
     }
+
+    public List<Habitacion> confirmarHabitaciones(String hotelNombre, LocalDate inicio, LocalDate fin, int adultos, int niños, int cantidadHabitaciones) {
+        // Buscar el hotel por nombre
+        Hotel hotel = buscarHotelPorNombre(hotelNombre);
+        if (hotel == null) {
+            System.out.println("El hotel no existe.");
+            return new ArrayList<>();
+        }
+
+        // Filtrar habitaciones disponibles
+        List<Habitacion> habitacionesDisponibles = new ArrayList<>();
+        for (Habitacion habitacion : hotel.getHabitaciones()) {
+            if (habitacion.getCantidadDisponible() >= cantidadHabitaciones) {
+                habitacionesDisponibles.add(habitacion);
+            }
+        }
+
+        return habitacionesDisponibles;
+    }
+
 }
